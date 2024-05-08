@@ -35,6 +35,13 @@ const BasicToolsPage = () => {
             {/* <ListItemText primary="Base58 Check编解码" /> */}
           {/* </ListItemButton> */}
           {/* <Divider /> */}
+          <ListItemButton component={Link} to="/basic/hex-conversion">
+            <ListItemIcon>
+              {/* Add icon if needed */}
+            </ListItemIcon>
+            <ListItemText primary="Hex 转换" />
+          </ListItemButton>
+          <Divider />
           <ListItemButton component={Link} to="/basic/mnemonic-generator">
             <ListItemIcon>
               {/* Add icon if needed */}

@@ -33,7 +33,7 @@ const Base58Tool = () => {
   return (
     <Grid container spacing={4} style={{ height: '100vh', padding: '20px' }}>
       {/* 标题 */}
-      <Grid item xs={12} style={{height: '10vh', padding: '20px'}}>
+      <Grid item xs={12} style={{height: '7vh', padding: '20px'}}>
         <Paper elevation={3} style={{ height: '90%', padding: '20px' }}>
           <Typography variant="h4" gutterBottom>
             Base58 编解码（基于UTF-8字符集）
@@ -57,12 +57,12 @@ const Base58Tool = () => {
       {/* 输入输出区域 */}
       <Grid item xs={12} container spacing={2} style={{ height: '70vh', padding:'20px' }}>
         <Grid item xs={12} md={5}>
-          <Paper elevation={3} style={{ height: '100%', padding: '20px' }}>
+          <Paper elevation={3} style={{  }}>
             <TextField
               label="待编码数据"
               variant="outlined"
               multiline
-              rows={50}
+              rows={30}
               fullWidth
               value={inputLeft}
               onChange={(e) => setInputLeft(e.target.value)}
@@ -90,12 +90,12 @@ const Base58Tool = () => {
           </Button>
         </Grid>
         <Grid item xs={12} md={5}>
-          <Paper elevation={3} style={{ height: '100%', padding: '20px' }}>
+          <Paper elevation={3} style={{  }}>
             <TextField
               label="待解码数据"
               variant="outlined"
               multiline
-              rows={50}
+              rows={30}
               fullWidth
               value={inputRight}
               onChange={(e) => setInputRight(e.target.value)}

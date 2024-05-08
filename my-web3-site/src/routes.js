@@ -11,6 +11,7 @@ import EVMPage from './EVMPage';
 import Base64Tool from './components/basic/Base64Tool';
 import Base58Tool from './components/basic/Base58Tool';
 import Base58CheckTool from './components/basic/Base58CheckTool';
+import HexConversionTool from './components/basic/HexConversionTool';
 import MnemonicGenerator from './components/basic/MnemonicGenerator';
 import BatchAddressGenerator from './components/basic/BatchAddressGenerator';
 
@@ -22,7 +23,8 @@ const RoutesComponent = () => {
       <Route path="/basic" element={<BasicToolsPage />} >
         <Route path="base64" element={<Base64Tool />} />
         <Route path="base58" element={<Base58Tool />} />
-        <Route path="base58Check" element={<Base58CheckTool />} />
+        <Route path="hex-conversion" element={<HexConversionTool />} />
+        {/* <Route path="base58Check" element={<Base58CheckTool />} /> */}
         <Route path="mnemonic-generator" element={<MnemonicGenerator />} />
         <Route path="batch-address-generator" element={<BatchAddressGenerator />} />
       </Route>

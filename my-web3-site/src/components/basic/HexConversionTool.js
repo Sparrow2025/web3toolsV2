@@ -4,65 +4,60 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { Buffer } from 'buffer';
 
-
-const Base64Tool = () => {
-  const [inputLeft, setInputLeft] = useState('');
-  const [inputRight, setInputRight] = useState('');
+const HexConversionTool = () => {
+  const [inputText, setInputText] = useState('');
+  const [outputText, setOutputText] = useState('');
 
   const handleEncode = () => {
-    try {
-      const encoder = new TextEncoder();
-      const data = encoder.encode(inputLeft);
-      const encodedData = btoa(String.fromCharCode.apply(null, data));
-      setInputRight(encodedData);
-    } catch (error) {
-      setInputRight('输入的数据有误!');
-    }
+    // 将输入的 UTF-8 格式字符串转换为十六进制表示
+    const hexString = Buffer.from(inputText, 'utf-8').toString('hex');
+    setOutputText(hexString); // 转换为大写显示
   };
 
   const handleDecode = () => {
-    try {
-      const decoder = new TextDecoder('utf-8');
-      const decodedData = decoder.decode(Uint8Array.from(atob(inputRight), c => c.charCodeAt(0)));
-      setInputLeft(decodedData);
-    } catch (error) {
-      setInputRight('输入的数据有误!');
-    }
+    // 将输入的十六进制字符串转换为 UTF-8 格式
+    const utf8String = Buffer.from(outputText, 'hex').toString('utf-8');
+    setInputText(utf8String);
   };
-
 
   return (
     <Grid container spacing={4} style={{ height: '100vh', padding: '20px' }}>
       {/* 标题 */}
-      <Grid item xs={12} style={{height: '7vh', padding: '20px'}}>
+      <Grid item xs={12} style={{ height: '7vh', padding: '20px' }}>
         <Paper elevation={3} style={{ height: '90%', padding: '20px' }}>
           <Typography variant="h4" gutterBottom>
-            Base64 编解码（基于UTF-8字符集）
+            Hex 转换工具 - 基于UTF-8字符集
           </Typography>
         </Paper>
       </Grid>
       {/* 摘要 */}
-      <Grid item xs={12} style={{height: '20vh', padding: '20px'}}>
+      <Grid item xs={12} style={{ height: '20vh', padding: '20px' }}>
         <Paper elevation={3} style={{ height: '90%', padding: '20px' }}>
           <Typography variant="body1">
-            Base64 编码是一种将二进制数据转换为文本字符串的方法。它将每三个字节的数据编码成四个字符的文本字符串，
-            并且只使用了常见的 ASCII 字符。Base64 编码常用于在网络传输中传递二进制数据，或者在文本环境中存储二进制数据。
+            这个工具可以将 UTF-8 格式的字符串转换为十六进制表示，也可以将十六进制字符串转换回 UTF-8 格式。
+          </Typography>
+        <Typography variant="body1" style={{ marginTop: '20px' }}>
+            UTF-8 编码是一种将 Unicode 字符转换为字节序列的可变长度编码。
+          </Typography>
+          <Typography variant="body1" style={{ marginTop: '20px' }}>
+            十六进制表示法（或简称为十六进制）是一种数字表示法，其中使用 16 个符号来表示 0-9 的数字和 A-F 的字母。
           </Typography>
         </Paper>
       </Grid>
       {/* 输入输出区域 */}
       <Grid item xs={12} container spacing={2} style={{ height: '70vh', padding:'20px' }}>
         <Grid item xs={12} md={5}>
-          <Paper elevation={3} style={{ }}>
+          <Paper elevation={3} style={{}}>
             <TextField
-              label="待编码数据"
+              label="输入字符串"
               variant="outlined"
               multiline
               rows={30}
               fullWidth
-              value={inputLeft}
-              onChange={(e) => setInputLeft(e.target.value)}
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
             />
           </Paper>
         </Grid>
@@ -72,30 +67,30 @@ const Base64Tool = () => {
             color="primary"
             style={{ margin: '10px' }}
             onClick={handleEncode}
-            disabled={!inputLeft}
+            disabled={!inputText.trim()}
           >
-            编码
+            转换为 Hex
           </Button>
           <Button
             variant="contained"
             color="primary"
             style={{ margin: '10px' }}
             onClick={handleDecode}
-            disabled={!inputRight}
+            disabled={!outputText.trim()}
           >
-            解码
+            解码为字符串
           </Button>
         </Grid>
         <Grid item xs={12} md={5}>
-          <Paper elevation={3} style={{  }}>
+          <Paper elevation={3} style={{}}>
             <TextField
-              label="待解码数据"
+              label="输出结果"
               variant="outlined"
               multiline
               rows={30}
               fullWidth
-              value={inputRight}
-              onChange={(e) => setInputRight(e.target.value)}
+              value={outputText}
+              readOnly
             />
           </Paper>
         </Grid>
@@ -104,4 +99,4 @@ const Base64Tool = () => {
   );
 };
 
-export default Base64Tool;
+export default HexConversionTool;
