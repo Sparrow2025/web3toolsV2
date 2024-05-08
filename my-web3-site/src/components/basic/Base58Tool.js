@@ -4,33 +4,31 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import bs58 from 'bs58';
 
-
-const Base64Tool = () => {
+const Base58Tool = () => {
   const [inputLeft, setInputLeft] = useState('');
   const [inputRight, setInputRight] = useState('');
 
-  const handleEncode = () => {
-    try {
-      const encoder = new TextEncoder();
-      const data = encoder.encode(inputLeft);
-      const encodedData = btoa(String.fromCharCode.apply(null, data));
-      setInputRight(encodedData);
-    } catch (error) {
-      setInputRight('输入的数据有误!');
-    }
-  };
+    const handleEncode = () => {
+        try {
+            const utf8Bytes = new TextEncoder().encode(inputLeft);
+            const encodedData = bs58.encode(utf8Bytes).toString('utf-8');
+            setInputRight(encodedData);
+        } catch (error) {
+            setInputRight('Invalid input!');
+        }
+    };
 
-  const handleDecode = () => {
-    try {
-      const decoder = new TextDecoder('utf-8');
-      const decodedData = decoder.decode(Uint8Array.from(atob(inputRight), c => c.charCodeAt(0)));
-      setInputLeft(decodedData);
-    } catch (error) {
-      setInputRight('输入的数据有误!');
-    }
-  };
-
+    const handleDecode = () => {
+        try {
+            const decodedData = new TextDecoder().decode(bs58.decode(inputRight));
+            setInputLeft(decodedData);
+        } catch (error) {
+            console.error(error);
+            setInputLeft('Invalid input!');
+        }
+    };
 
   return (
     <Grid container spacing={4} style={{ height: '100vh', padding: '20px' }}>
@@ -38,7 +36,7 @@ const Base64Tool = () => {
       <Grid item xs={12} style={{height: '10vh', padding: '20px'}}>
         <Paper elevation={3} style={{ height: '90%', padding: '20px' }}>
           <Typography variant="h4" gutterBottom>
-            Base64 编解码（基于UTF-8字符集）
+            Base58 编解码（基于UTF-8字符集）
           </Typography>
         </Paper>
       </Grid>
@@ -46,8 +44,13 @@ const Base64Tool = () => {
       <Grid item xs={12} style={{height: '20vh', padding: '20px'}}>
         <Paper elevation={3} style={{ height: '90%', padding: '20px' }}>
           <Typography variant="body1">
-            Base64 编码是一种将二进制数据转换为文本字符串的方法。它将每三个字节的数据编码成四个字符的文本字符串，
-            并且只使用了常见的 ASCII 字符。Base64 编码常用于在网络传输中传递二进制数据，或者在文本环境中存储二进制数据。
+            Base58 编码是一种将二进制数据转换为文本字符串的方法，类似于 Base64 编码。
+          </Typography>
+          <Typography variant="body1" style={{ marginTop: '20px' }}>
+            与 Base64 不同，Base58 不使用易混淆的字符（数字 0 和字母 O）和易混淆的大小写字母（大写字母 I 和小写字母 l），以及 + 和 / ，共 6 个字符。这也是 Base58 名称的由来，因为 64 - 6 = 58。
+          </Typography>
+          <Typography variant="body1" style={{ marginTop: '20px' }}>
+            与 Base64 相比，Base58 编码后的字符串长度稍长，但更适合用于在人类可读的环境中传递。Base58 编码常用于比特币等加密货币的地址表示。
           </Typography>
         </Paper>
       </Grid>
@@ -104,4 +107,4 @@ const Base64Tool = () => {
   );
 };
 
-export default Base64Tool;
+export default Base58Tool;

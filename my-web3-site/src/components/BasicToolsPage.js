@@ -21,6 +21,20 @@ const BasicToolsPage = () => {
             <ListItemText primary="Base64 编解码" />
           </ListItemButton>
           <Divider />
+          <ListItemButton component={Link} to="/basic/base58">
+            <ListItemIcon>
+              {/* Add icon if needed */}
+            </ListItemIcon>
+            <ListItemText primary="Base58 编解码" />
+          </ListItemButton>
+          <Divider />
+          {/* <ListItemButton component={Link} to="/basic/base58Check"> */}
+            {/* <ListItemIcon> */}
+              {/* Add icon if needed */}
+            {/* </ListItemIcon> */}
+            {/* <ListItemText primary="Base58 Check编解码" /> */}
+          {/* </ListItemButton> */}
+          {/* <Divider /> */}
           <ListItemButton component={Link} to="/basic/mnemonic-generator">
             <ListItemIcon>
               {/* Add icon if needed */}
