@@ -13,70 +13,76 @@ const Base58CheckTool = () => {
 
   const handleEncode = () => {
     const bytes = CryptoJS.enc.Hex.parse(inputLeft);
-    const checksum = CryptoJS.SHA256(CryptoJS.SHA256(bytes));
-    const checkSumHex = checksum.toString(CryptoJS.enc.Hex);
-    const checksumBytes = new Uint8Array(checkSumHex.match(/[\da-f]{2}/gi).map(h => parseInt(h, 16)));
-    const sourceBytes = new Uint8Array(inputLeft.match(/[\da-f]{2}/gi).map(h => parseInt(h, 16)));
-    const dataWithChecksum= new Uint8Array([...sourceBytes, ...checksumBytes.subarray(0, 4)]);
-    const encodedData = bs58.encode(dataWithChecksum);
+    const checksumHex = CryptoJS.SHA256(CryptoJS.SHA256(bytes)).toString(CryptoJS.enc.Hex);
+    const data = inputLeft + checksumHex.substring(0, 8);
+    const encodedData = bs58.encode(hexToBytes(data));
     setInputRight(encodedData);
   };
 
-    const handleDecode = () => {
-        try {
-            // 解码 Base58Check 编码的数据
-            const decodedData = bs58.decode(inputRight);
-            // 分离校验和和数据部分
-            const dataWithoutChecksum = decodedData.slice(0, -4);
-            const checksum = CryptoJS.enc.Hex.parse(decodedData.slice(-4));
-            // 计算数据部分的哈希
-            const hash = CryptoJS.SHA256(CryptoJS.SHA256(dataWithoutChecksum)).toString(CryptoJS.enc.Hex).slice(0, 8);
-            const checksumBytes = CryptoJS.enc.Hex.parse(hash);
-            // 验证校验和
-            if (checksum === checksumBytes) {
-                // 校验和匹配，返回解码后的数据
-                const decodedString = CryptoJS.enc.Hex.parse(dataWithoutChecksum).toString(CryptoJS.enc.Hex);
-                setInputLeft(decodedString);
-            } else {
-                // 校验和不匹配，提示错误
-                setInputLeft('Invalid checksum');
-            }
-        } catch (error) {
-            // 解码失败，提示错误
-            setInputLeft('Invalid Base58Check data');
-        }
-    };
+  // Convert a hex string to a byte array
+  function hexToBytes(hex) {
+    let bytes = [];
+    for (let c = 0; c < hex.length; c += 2)
+      bytes.push(parseInt(hex.substr(c, 2), 16));
+    return bytes;
+  }
 
-    function toHexString(byteArray) {
-        return byteArray.reduce((output, elem) => 
-            (output + ('0' + elem.toString(16)).slice(-2)),
-    '');
-}
+  const handleDecode = () => {
+    try {
+      // 解码 Base58Check 编码的数据
+      const decodedData = bs58.decode(inputRight);
+      // 分离校验和和数据部分
+      const dataWithoutChecksum = decodedData.slice(0, -4);
+      const originData = CryptoJS.lib.WordArray.create(dataWithoutChecksum);
+      const checksum = CryptoJS.lib.WordArray.create(decodedData.slice(-4)).toString(CryptoJS.enc.Hex);
+      // 计算数据部分的哈希
+      const checkHashHex = CryptoJS.SHA256(CryptoJS.SHA256(originData)).toString(CryptoJS.enc.Hex).substring(0, 8);
+      // 验证校验和
+      if (checksum === checkHashHex) {
+        // 校验和匹配，返回解码后的数据
+        setInputLeft(originData);
+      } else {
+        // 校验和不匹配，提示错误
+        setInputLeft('Invalid checksum');
+      }
+    } catch (error) {
+      // 解码失败，提示错误
+      setInputLeft('Invalid Base58Check data');
+    }
+  };
 
 
   return (
     <Grid container spacing={4} style={{ height: '100vh', padding: '20px' }}>
       {/* 标题 */}
-      <Grid item xs={12} style={{ height: '10vh', padding: '20px' }}>
+      <Grid item xs={12} style={{ height: '7vh', padding: '20px' }}>
         <Paper elevation={3} style={{ height: '90%', padding: '20px' }}>
           <Typography variant="h4" gutterBottom>
-            Base58Check 编解码工具 - 基于Hex字符串
+            Base58Check 编解码工具 - 基于Hex字符串（输入和输出都是Hex格式）
           </Typography>
         </Paper>
       </Grid>
       {/* 摘要 */}
-      <Grid item xs={12} style={{ height: '20vh', padding: '20px' }}>
+      <Grid item xs={12} style={{ height: '26vh', padding: '20px' }}>
         <Paper elevation={3} style={{ height: '90%', padding: '20px' }}>
           <Typography variant="body1">
             编码步骤：<br />
-            1. 对输入数据进行 SHA-256 哈希计算。<br />
-            2. 对哈希结果进行两次 SHA-256 哈希计算，取前4个字节作为校验和。<br />
+            1. 对输入数据进行 两次SHA-256 哈希计算。<br />
+            2. 取哈希值的前4个字节作为校验和。<br />
             3. 将校验和添加到原始数据末尾。<br />
             4. 使用 Base58 编码得到最终结果。<br />
           </Typography>
+          <br />
+          <Typography variant="body1">
+            解码步骤：<br />
+            1. 对输入数据进行 Base58 解码。<br />
+            2. 分离出原始数据和检验和（最后4个字节为检验和）。<br />
+            3. 通过原始数据计算出检验和。<br />
+            4. 校验和匹配，则得到最终结果。<br />
+          </Typography>
         </Paper>
       </Grid>
-      <Grid item xs={12} container spacing={2} style={{ height: '70vh', padding:'20px' }}>
+      <Grid item xs={12} container spacing={2} style={{ height: '70vh', padding: '20px' }}>
         <Grid item xs={12} md={5}>
           <Paper elevation={3} style={{ height: '100%', padding: '20px' }}>
             <TextField

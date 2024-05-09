@@ -24,7 +24,7 @@ const RoutesComponent = () => {
         <Route path="base64" element={<Base64Tool />} />
         <Route path="base58" element={<Base58Tool />} />
         <Route path="hex-conversion" element={<HexConversionTool />} />
-        {/* <Route path="base58Check" element={<Base58CheckTool />} /> */}
+        <Route path="base58Check" element={<Base58CheckTool />} />
         <Route path="mnemonic-generator" element={<MnemonicGenerator />} />
         <Route path="batch-address-generator" element={<BatchAddressGenerator />} />
       </Route>

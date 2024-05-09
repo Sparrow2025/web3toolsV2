@@ -28,13 +28,12 @@ const BasicToolsPage = () => {
             <ListItemText primary="Base58 编解码" />
           </ListItemButton>
           <Divider />
-          {/* <ListItemButton component={Link} to="/basic/base58Check"> */}
-            {/* <ListItemIcon> */}
-              {/* Add icon if needed */}
-            {/* </ListItemIcon> */}
-            {/* <ListItemText primary="Base58 Check编解码" /> */}
-          {/* </ListItemButton> */}
-          {/* <Divider /> */}
+          <ListItemButton component={Link} to="/basic/base58Check">
+            <ListItemIcon>
+            </ListItemIcon>
+            <ListItemText primary="Base58 Check编解码" />
+          </ListItemButton>
+          <Divider />
           <ListItemButton component={Link} to="/basic/hex-conversion">
             <ListItemIcon>
               {/* Add icon if needed */}
@@ -49,12 +48,6 @@ const BasicToolsPage = () => {
             <ListItemText primary="助记词生成" />
           </ListItemButton>
           <Divider />
-          <ListItemButton component={Link} to="/basic/batch-address-generator">
-            <ListItemIcon>
-              {/* Add icon if needed */}
-            </ListItemIcon>
-            <ListItemText primary="批量地址生成" />
-          </ListItemButton>
         </List>
       </Grid>
       <Grid item xs={9}>
