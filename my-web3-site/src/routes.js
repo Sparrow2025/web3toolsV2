@@ -13,7 +13,6 @@ import Base58Tool from './components/basic/Base58Tool';
 import Base58CheckTool from './components/basic/Base58CheckTool';
 import HexConversionTool from './components/basic/HexConversionTool';
 import MnemonicGenerator from './components/basic/MnemonicGenerator';
-import BatchAddressGenerator from './components/basic/BatchAddressGenerator';
 
 const RoutesComponent = () => {
     console.log("init routes");
@@ -26,7 +25,6 @@ const RoutesComponent = () => {
         <Route path="hex-conversion" element={<HexConversionTool />} />
         <Route path="base58Check" element={<Base58CheckTool />} />
         <Route path="mnemonic-generator" element={<MnemonicGenerator />} />
-        <Route path="batch-address-generator" element={<BatchAddressGenerator />} />
       </Route>
       <Route path="/btc" element={<BTCPage />} />
       <Route path="/evm" element={<EVMPage />} />

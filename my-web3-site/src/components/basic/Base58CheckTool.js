@@ -63,7 +63,7 @@ const Base58CheckTool = () => {
         </Paper>
       </Grid>
       {/* 摘要 */}
-      <Grid item xs={12} style={{ height: '26vh', padding: '20px' }}>
+      <Grid item xs={12} style={{ height: '30vh', padding: '20px' }}>
         <Paper elevation={3} style={{ height: '90%', padding: '20px' }}>
           <Typography variant="body1">
             编码步骤：<br />
