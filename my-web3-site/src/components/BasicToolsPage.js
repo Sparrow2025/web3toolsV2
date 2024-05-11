@@ -48,6 +48,13 @@ const BasicToolsPage = () => {
             <ListItemText primary="助记词生成" />
           </ListItemButton>
           <Divider />
+          <ListItemButton component={Link} to="/basic/address-generator">
+            <ListItemIcon>
+              {/* Add icon if needed */}
+            </ListItemIcon>
+            <ListItemText primary="地址批量生成" />
+          </ListItemButton>
+          <Divider />
         </List>
       </Grid>
       <Grid item xs={9}>
